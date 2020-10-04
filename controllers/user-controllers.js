@@ -35,7 +35,39 @@ const userControllers = {
                 }
                 res.json(dbUserInfo)
             })
-            .catch(err => res.status(400));
+            .catch(err => res.status(400).json(err));
+    },
+
+    addFriend({params}, res) {
+        User.findOneAndUpdate(
+            {_id: params.userId},
+            {$push: {friends: params.friendId}},
+            {new: true}
+        )
+        .then(dbUserInfo => {
+            if (!dbUserInfo) {
+                res.status(404).json({message: 'Please double check your user and friend IDs'});
+                return;
+            }
+            res.json(dbUserInfo);
+        })
+        .catch(err => res.status(400).json(err));
+    },
+
+    deleteFriend({params}, res) {
+        User.findOneAndUpdate(
+            {_id: params.userId},
+            {$pull: {friends: params.friendId}},
+            {new: true}
+        )
+        .then(dbUserInfo => {
+            if (!dbUserInfo) {
+                res.status(404).json({message: 'Please double check your user and friend IDs'});
+                return;
+            }
+            res.json(dbUserInfo);
+        })
+        .catch(err => res.status(400).json(err));
     }
 }
 

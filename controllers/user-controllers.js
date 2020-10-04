@@ -23,7 +23,7 @@ const userControllers = {
     updateUser({params, body}, res) {
         User.findOneAndUpdate({_id: params.id}, body, {new: true, runValidators: true})
             .then(dbUserInfo => res.json(dbUserInfo))
-            .catch(err => res.status(400).json({message: 'No user found with that id'}));
+            .catch(err => res.status(400).json(err));
     },
 
     deleteUser({params}, res) {

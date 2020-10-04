@@ -38,3 +38,5 @@ const userControllers = {
             .catch(err => res.status(400));
     }
 }
+
+module.exports = userControllers;
